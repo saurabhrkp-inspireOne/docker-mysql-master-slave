@@ -167,3 +167,18 @@ docker exec -it mysql_master bash
 ```bash
 docker exec -it mysql_slave bash
 ```
+
+#### Update Time-zone to India
+
+Update to set INDIA time_zone
+
+```mysql
+SET GLOBAL time_zone = '+05:30';
+SET SESSION time_zone = '+05:30';
+```
+
+Verify time_zone
+
+```mysql
+SELECT @@GLOBAL.time_zone, @@SESSION.time_zone;
+```

@@ -5,7 +5,7 @@ services:
     env_file:
       - ./master/mysql_master.env
     container_name: "mysql_master"
-    restart: "no"
+    restart: unless-stopped
     ports:
       - 4406:3306
     volumes:
@@ -19,7 +19,7 @@ services:
     env_file:
       - ./slave/mysql_slave.env
     container_name: "mysql_slave"
-    restart: "no"
+    restart: unless-stopped
     ports:
       - 5506:3306
     depends_on:
@@ -32,4 +32,3 @@ services:
 
 networks:
   overlay:
-

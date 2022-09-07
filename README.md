@@ -66,13 +66,19 @@ SHOW variables LIKE 'server_id';
 Create User for Replication with privileges
 
 ```mysql
-CREATE USER 'mydb_slave_user'@'%' IDENTIFIED WITH mysql_native_password BY 'mydb_slave_pwd'; GRANT REPLICATION SLAVE ON *.* TO 'mydb_slave_user'@'%'; FLUSH PRIVILEGES;
+CREATE USER 'slave'@'%' IDENTIFIED WITH mysql_native_password BY 'slave123@'; GRANT REPLICATION SLAVE ON *.* TO 'slave'@'%'; FLUSH PRIVILEGES;
 ```
 
 Get Master Status and File as MASTER_LOG_FILE, Position as MASTER_LOG_POS
 
 ```mysql
 SHOW MASTER STATUS\G
+```
+
+Run Slave server with Root access
+
+```bash
+docker-compose exec mysql_slave mysql -u root -p
 ```
 
 Check server_id of Slave, ensure Master and slave have different server_id
@@ -90,7 +96,7 @@ SET GLOBAL server_id = 2;
 Change Master and add MASTER_LOG_FILE and MASTER_LOG_POS of Master
 
 ```mysql
-CHANGE MASTER TO MASTER_HOST='mysql_master',MASTER_USER='mydb_slave_user',MASTER_PASSWORD='mydb_slave_pwd',MASTER_LOG_FILE='binlog.000002',MASTER_LOG_POS=879; START SLAVE;
+CHANGE MASTER TO MASTER_HOST='mysql_master',MASTER_USER='slave',MASTER_PASSWORD='slave123@',MASTER_LOG_FILE='binlog.000002',MASTER_LOG_POS=829; START SLAVE;
 ```
 
 Get Slave Status
